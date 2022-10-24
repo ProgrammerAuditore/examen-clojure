@@ -104,25 +104,27 @@
 )
 
 ;------------------------------------------------
+;             [ con ciclo LOOP FOR MACRO ]
+;------------------------------------------------
+(defn conMacro [numeroN numeroM]
+  (resetear)
+  (def i)
+  (def con (atom numeroN))
+  (def replicas (+ 1 (- numeroM numeroN)))
+  (swap! suma + numeroN)
+
+  (for-loop [i 0 (< i replicas) (inc i)]
+    (swap! con + 1)
+    (if(<= @con numeroM) (swap! suma + @con))
+  )
+
+  (println "")
+  (println "La suma es: " @suma)
+)
+
+;------------------------------------------------
 ;             [ con ciclo ConRecur ]
 ;------------------------------------------------
-(def conRecur 
-  (fn ([n x] (conRecur n 1 0 x[]))
-    ([n impares suma num x]
-      (print n " ")
-      (if (zero? n)
-        (do
-          (prn x "Impares")
-          (prn num "^2 es: " suma)
-        )
-        
-        (recur (dec n) (+ impares 2) (+ impares suma) (inc num)
-          (conj x impares)
-        )
-      )
-    )
-  )
-)
 
 (defn -main
   "I don't do a whole lot ... yet."
@@ -143,7 +145,7 @@
   (println "Con conCicloFor")
   (conCicloFor 5 10)
 
-  (println "Con conCicloFor")
-  (conRecur 5 100)
+  (println "Con conMacro")
+  (conMacro 5 10)
   
 )
